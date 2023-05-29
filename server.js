@@ -26,11 +26,20 @@ const contactController = require('./controllers/contactController');
 app.use(express.static('../new_site'));
 
 
-  app.use((req, res, next) => {
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+app.use((req, res, next) => {
+    const forwarded = req.headers['x-forwarded-for'];
+    let ip = '';
+
+    if (forwarded) {
+        // extract the first IP if multiple IPs are present
+        ip = forwarded.split(',')[0];
+    } else {
+        ip = req.socket.remoteAddress;
+    }
+
     req.clientIp = validator.isIP(ip) ? ip : undefined;
     next();
-  });
+});
 
 app.use('/api/geolocation', geolocationController);
 app.use('/api/contact', contactController);
