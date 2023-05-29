@@ -7,6 +7,14 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+// Configure cors to allow requests from domain
+var corsOptions = {
+    origin: 'https://brandonkiefer.net',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors(corsOptions)); 
+
 app.use(bodyParser.json());
 
 const geolocationController = require('./controllers/geolocationController');
