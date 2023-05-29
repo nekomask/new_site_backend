@@ -25,6 +25,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "nodemailer": "^6.9.1",
-    "openai": "^3.2.1"
+    "openai": "^3.2.1",
+    "validator": "^13.9.0"
   }
 }

@@ -1,8 +1,9 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const validator = require('validator');
 dotenv.config();
-console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY);
+
 
 const bodyParser = require('body-parser');
 
@@ -23,6 +24,13 @@ const contactController = require('./controllers/contactController');
 
 
 app.use(express.static('../new_site'));
+
+
+  app.use((req, res, next) => {
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    req.clientIp = validator.isIP(ip) ? ip : undefined;
+    next();
+  });
 
 app.use('/api/geolocation', geolocationController);
 app.use('/api/contact', contactController);
